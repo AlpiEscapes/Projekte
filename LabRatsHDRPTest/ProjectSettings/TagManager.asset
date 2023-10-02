@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Enemy
+  - EnemyHolder
+  - PlayerHolder
+  - Camera
+  - Item
+  - Spawn
+  - EscMenu
+  - Inventory
+  - GameHandler
+  - EnemySpawnPos
+  - AreaEnd
+  - ItemSpawnPos
+  - Checkpoint
+  - TapeAudioHolder
+  - SelectSaveGame
+  - UI_Ingame
+  - HealItem
+  - HealSlots
+  - VictoryPoint
+  - UI_Cooldown
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - PostProcessing
+  - Wall
+  - UI+
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0

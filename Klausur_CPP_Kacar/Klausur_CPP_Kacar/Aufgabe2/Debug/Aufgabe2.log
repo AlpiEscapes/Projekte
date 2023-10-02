@@ -1,0 +1,4 @@
+﻿  Aufgabe2.cpp
+D:\Git\bibGitHub\CPP\Klausur_CPP_Kacar\Aufgabe2\Aufgabe2.cpp(26,27): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+D:\Git\bibGitHub\CPP\Klausur_CPP_Kacar\Aufgabe2\Aufgabe2.cpp(49,27): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+  Aufgabe2.vcxproj -> D:\Git\bibGitHub\CPP\Klausur_CPP_Kacar\Debug\Aufgabe2.exe

@@ -1,0 +1,170 @@
+@startuml
+
+interface UpdateServiceOrder{
+    +ReplyMessage postCreateOrder(PortServiceOrder orderRequest, String changeRequesterUuid, String changeReason)
+    +ReplyMessage postCancelOrder(String orderUuid, String changeRequesterUuid, String changeReason)
+    +ReplyMessage postConfirmOrder(String orderUuid, String changeRequesterUuid, String changeReason)
+    +ReplyMessage postPlaceExternalOrder(String orderUuid, String changeRequesterUuid, String changeReason)
+    +ReplyMessage postAddSubOrder(String parentOrderUuid, String childOrderUuid, String changeRequesterUuid, String changeReason)
+    +ReplyMessage postRemoveSubOrder(String parentOrderUuid, String childOrderUuid, String changeRequesterUuid, string changeReason)
+    +ReplyMessage postOrderChangeRequest(PortServiceOrder changeRequest, String changeRequesterUuid, String changeReason)
+    +ReplyMessage postAcceptOrderChangeRequest(String changeRequestUuid, String responseDescription)
+    +ReplyMessage postRejectChangeRequest(String changeRequestUuid, String responseDescription)
+
+}
+
+entity ReplyMessage{
+    ArrayList<PortServiceOrder> orderList
+    Integer code
+    String debugMessage
+    ArrayList<Resource> resourceList
+    ArrayList<OrderChangeRequest> orderChangeRequestList
+    Long limit
+    Long offset
+    Long totalRecords
+}
+
+entity Resource{
+    String href
+    String uuid
+    String name
+    ArrayList<Characteristic> characeristics
+    Party resourceOwner
+    ResourceAccess resourceAccess
+    String resourceTypeName
+    String description
+    Long id
+}
+
+entity Characteristic{
+    String name
+    String value
+    String description
+}
+
+enum ResourceAccess{
+    EXTERNAL
+    INTERNAL
+}
+
+entity OrderChangeRequest{
+    PortServiceOrder changeRequest
+    Date requestDate
+    Date approvedDate
+    ChangeStatus status
+    String changeReason
+    Party changeRequester
+    String responseDescription
+    Long id
+    String uuid
+    String href
+}
+
+enum ChangeStatus{
+    REQUESTED
+    APPROVED
+    REJECTED
+}
+
+entity PortServiceOrder {
+    int orderId
+    String shipName
+    LocalDate orderCreated
+    ArrayList<Resource> requestedResources
+    PortOrderStatus orderStatus
+}
+
+enum PortOrderStatus{
+    IN_PROGRESS
+    CANCELLED
+    CHANGE_REQUESTED
+    CONFIRMED
+    ACKNOWLEDGED
+    PLACED
+}
+
+entity Bill {
+    int orderId
+    String shipName
+    LocalDate createTime
+    double totalCost
+}
+
+entity Cargo {
+    int cargoId
+    string cargoLocation
+    string cargoDescription
+    string destination
+    string associcatedShipName
+}
+
+entity WaterStore {
+    int waterStoreId
+    string waterStoreLocation
+    double waterStoreReserves
+}
+
+entity WasteStore {
+    int wasteStoreId
+    string wasteStoreLocation
+    double wasteStoreContents
+}
+
+
+ServiceOrderManager -- PortServiceOrder
+BillingManager -- Bill
+ServicesManager --|> CargoManager
+ServicesManager --|> WaterManager
+ServicesManager --|> WasteManager
+CargoManager -- Cargo
+WaterManager -- WaterStore
+WasteManager -- WasteStore
+Resource -> Characteristic
+OrderChangeRequest -> ChangeStatus
+PortServiceOrder -> Resource
+PortServiceOrder -> PortOrderStatus
+OrderChangeRequest -> PortServiceOrder
+Resource -> ResourceAccess
+
+
+class ServiceOrderManager {
+    PortServiceOrder CreateNewServiceOrder(int orderId, string shipName, LocalDate orderCreated, 
+    bool isWaterRequested, bool isWasteRequested, bool isCargoOffloadRequested, bool isCargoOnloadRequested)
+        PortServiceOrder GetServiceOrder(int id)
+    bool DeletePortServiceOrder(int id)
+    bool UpdateServiceOrder(PortServiceOrder order)
+}
+
+class BillingManager {
+    Bill CreateBill(PortServiceOrder order)
+    double CalculateCost(PortServiceOrder)
+}
+
+class ServicesManager {
+    bool ProvisionWaterToShip(int orderId, string shipName)
+    bool RemoveWasteFromShip(int orderId, string shipName)
+    bool OffloadCargoFromShip(int orderId, string shipName)
+    bool OnloadCargoToShip(int orderId, string shipName)
+}
+
+class CargoManager {
+    string GetLocation(int cargoId)
+    string MoveCargo(int cargoId)
+    bool Load(int cargoId, string shipName)
+    string Offload(int cargoId string shipName)
+}
+
+class WaterManager {
+    double PercentageFull()
+    bool IsEmpty()
+    void RequestWater()
+}
+
+class WasteManager {
+    double PercentageFull()
+    bool IsFull()
+    void DisposeWaste()
+}
+
+
+@enduml

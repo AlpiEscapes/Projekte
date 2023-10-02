@@ -1,0 +1,22 @@
+@startuml
+
+() "Berth_API" as BA
+() "Order_API" as OA
+() "Billing_API" as BO
+
+[Ship Owners] ..> OA:Requests Services
+
+[Stevedore]
+OA - [Stevedore]
+[Stevedore] - BO
+
+[Stevedore] ..> BA : Request Berth
+
+BO ..> [Ship Owners] : Bill
+
+[Port Owners]
+BA - [Port Owners]
+
+
+
+@enduml

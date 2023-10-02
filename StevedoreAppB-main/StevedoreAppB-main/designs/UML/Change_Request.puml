@@ -1,0 +1,19 @@
+@startuml
+hide empty description
+
+[*] --> Change_Requested
+
+Change_Requested : A change to a resource has been requested
+Change_Requested -> Confirmed
+Change_Requested -> Cancelled
+
+Confirmed -> In_Progress
+Confirmed -> Cancelled
+
+In_Progress -> Acknowledged
+In_Progress -> Cancelled
+
+Acknowledged --> [*]
+Cancelled --> [*]
+
+@enduml
